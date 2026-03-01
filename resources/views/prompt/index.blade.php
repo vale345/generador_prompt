@@ -37,16 +37,27 @@
 
         <div class='grid grid-cols-4 sm:grid-cols-5 gap-2'>
             @foreach ($category->options as $option)
-            <button @click="toggle('{{ $category->key }}', {{ $option->id }}, '{{ $option->label }}')"
-                :class="{
-                    'ring-2 ring-blue-400 ring-offset-1 ring-offset-slate-800 scale-105 bg-slate-600':
-                     selections['{{ $category->key }}'] === {{ $option->id }}
-                }"
-                class='flex flex-col items-center gap-1 bg-slate-700 rounded-xl p-3
-                       hover:bg-slate-600 transition-all cursor-pointer'>
-                <span class='text-2xl'>{{ $option->icon }}</span>
-                <span class='text-xs text-slate-300 font-semibold'>{{ $option->label }}</span>
-            </button>
+        <button @click="toggle('{{ $category->key }}', {{ $option->id }}, '{{ $option->label }}')"
+            :class="{
+                'ring-2 ring-blue-400 ring-offset-1 ring-offset-slate-800 scale-105 bg-slate-600':
+                selections['{{ $category->key }}'] === {{ $option->id }}
+            }"
+            class='option-btn flex flex-col items-center gap-1 bg-slate-700 rounded-xl p-2
+                hover:bg-slate-600 transition-all cursor-pointer'>
+
+            <img
+                src="{{ asset('images/options/' . $option->option_key . '.png') }}"
+                alt="{{ $option->label }}"
+                class="w-12 h-12 object-contain rounded-lg"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+
+            {{-- Fallback: muestra el emoji si la imagen no existe --}}
+            <span class='text-2xl' style="display:none">{{ $option->icon }}</span>
+
+            <span class='text-xs text-slate-300 font-semibold leading-tight text-center'>
+                {{ $option->label }}
+            </span>
+        </button>
             @endforeach
         </div>
     </section>
